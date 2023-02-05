@@ -1,15 +1,15 @@
 {
   "name": "tsd-lite-cli",
   "version": "1.0.0",
-  "description": "CLI for \"tsd-lite\"",
+  "description": "Test runner for testing TypeScript typings",
   "license": "MIT",
   "keywords": [
     "typescript",
+    "test",
     "tsd",
-    "testing",
     "tsd-lite",
-    "type-test",
-    "typing-test",
+    "types",
+    "typings",
     "cli"
   ],
   "sideEffects": false,
