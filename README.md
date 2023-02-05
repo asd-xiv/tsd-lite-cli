@@ -1,3 +1,8 @@
+<!-- markdownlint-disable first-line-h1 -->
+
+[![CircleCI](https://dl.circleci.com/status-badge/img/gh/asd-xiv/tsd-lite-cli/tree/main.svg?style=svg)](https://dl.circleci.com/status-badge/redirect/gh/asd-xiv/tsd-lite-cli/tree/main)
+![npm](https://img.shields.io/npm/v/tsd-lite-cli)
+
 # tsd-lite-cli
 
 > Test runner for testing TypeScript typings (CLI over
