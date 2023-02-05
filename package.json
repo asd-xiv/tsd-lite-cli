@@ -11,6 +11,10 @@
     "type": "git",
     "url": "git+https://github.com/asd-xiv/tsd-lite-cli.git"
   },
+  "author": {
+    "name": "Andrei Dumitrescu",
+    "url": "https://github.com/andreidmt"
+  },
   "keywords": [
     "typescript",
     "test",
@@ -21,14 +25,15 @@
     "cli"
   ],
   "sideEffects": false,
-  "author": {
-    "name": "Andrei Dumitrescu",
-    "url": "https://github.com/andreidmt"
-  },
   "type": "module",
   "bin": {
     "tsd-lite": "bin/tsd-lite.js"
   },
+  "files": [
+    "bin",
+    "lib",
+    "docs"
+  ],
   "scripts": {
     "----UTIL": "",
     "prepare": "git config core.hooksPath .githooks",
