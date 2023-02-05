@@ -1,0 +1,136 @@
+version: 2.1
+
+# Executors - https://circleci.com/docs/2.0/executor-intro/
+#
+# The underlying technology or environment in which to run a job
+
+executors:
+  gitleaks:
+    docker:
+      - image: zricethezav/gitleaks:latest
+  node-lts:
+    docker:
+      - image: cimg/node:18.14
+
+# Jobs - https://circleci.com/docs/2.0/configuration-reference/#jobs
+#
+# Atomic parts of the pipeline that will be composed and configured in one or
+# more Workflows
+
+jobs:
+  detect-secrets:
+    executor: gitleaks
+    working_directory: &JOB_WORKING_DIR "~/tsd-lite-cli"
+    steps:
+      - checkout
+      - run:
+          name: "[gitleaks] Detect secrets in repository history"
+          command: |
+            gitleaks detect --redact --verbose
+      - persist_to_workspace:
+          root: &WORKSPACE_ROOT "~/"
+          paths:
+            - tsd-lite-cli
+
+  setup:
+    executor: node-lts
+    working_directory: *JOB_WORKING_DIR
+    steps:
+      - attach_workspace:
+          at: *WORKSPACE_ROOT
+      - run:
+          name: "[npm]: Install packages"
+          command: |
+            node -v && npm -v
+            npm run setup
+      - persist_to_workspace:
+          root: *WORKSPACE_ROOT
+          paths:
+            - tsd-lite-cli
+
+  test:
+    executor: node-lts
+    working_directory: *JOB_WORKING_DIR
+    steps:
+      - attach_workspace:
+          at: *WORKSPACE_ROOT
+      - run:
+          name: "[tape]: Unit tests"
+          command: "npm test"
+
+  typecheck:
+    executor: node-lts
+    working_directory: *JOB_WORKING_DIR
+    steps:
+      - attach_workspace:
+          at: *WORKSPACE_ROOT
+      - run:
+          name: "[tsc]: Typecheck"
+          command: |
+            npm run typecheck
+
+  lint:
+    executor: node-lts
+    working_directory: *JOB_WORKING_DIR
+    steps:
+      - attach_workspace:
+          at: *WORKSPACE_ROOT
+      - run:
+          name: "[eslint, markdownlint]: Lint"
+          command: |
+            npm run lint
+
+  # Required env vars:
+  #  - GITHUB_TOKEN: needs access to push a tag, create a release and commit
+  #    version changes to package.json and package-lock.json
+  #  - NPM_TOKEN: needs access to publish to npm
+  release-npm:
+    executor: node-lts
+    working_directory: *JOB_WORKING_DIR
+    steps:
+      - attach_workspace:
+          at: *WORKSPACE_ROOT
+      - run:
+          name:
+            "[semantic-release]: Update version, generate release, publish npm
+            package"
+          command: "npm run release"
+
+# Workflows - https://circleci.com/docs/2.0/workflows/
+#
+# Treat workflows as a jobs/commands pipe:
+# cmd1 -p1 lorem | cmd2 -foo bar | ... | cmdN)
+
+workflows:
+  release:
+    jobs:
+      - detect-secrets:
+          filters:
+            branches:
+              only: [main]
+      - setup:
+          requires: [detect-secrets]
+      - test:
+          requires: [setup]
+      - typecheck:
+          requires: [setup]
+      - lint:
+          requires: [setup]
+      - release-npm:
+          requires: [test, typecheck, lint]
+          context: ["GitHub Auth", "NPM Auth"]
+
+  test_pr-branches:
+    jobs:
+      - detect-secrets:
+          filters:
+            branches:
+              ignore: [main]
+      - setup:
+          requires: [detect-secrets]
+      - test:
+          requires: [setup]
+      - typecheck:
+          requires: [setup]
+      - lint:
+          requires: [setup]
