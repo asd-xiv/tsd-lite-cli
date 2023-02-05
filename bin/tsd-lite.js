@@ -1,49 +1,50 @@
 #!/usr/bin/env node
 
-/** @typedef {import("../src/types.js").Diagnosis} Diagnosis */
+import fastGlob from "fast-glob"
+import { formatSuiteResult, formatTestResult } from "../lib/formatter.fancy.js"
+import { runTest } from "../lib/fn.runTest.js"
 
-import fs from "node:fs"
-import path from "node:path"
+const globPatterns = process.argv.slice(2)
+const stats = fastGlob
+  .sync(globPatterns, { absolute: true })
+  .map(absolutePath => {
+    const diagnosis = runTest(absolutePath)
+    const output = formatTestResult(diagnosis)
 
-import { formatStats, formatDiagnosis } from "../src/formatter.fancy.js"
-import { runTestFile } from "../src/index.js"
+    if (diagnosis.errors.length === 0) {
+      process.stdout.write(`${output}\n`)
+    } else {
+      process.stderr.write(`${output}\n`)
+    }
 
-process.stdin.on("data", data => {
-  const files = data.toString().trim().split("\n")
-  const stats = files
-    .map(file => {
-      const absolutePath = path.resolve(process.cwd(), file.trim())
-
-      // Check if the file is readable.
-      fs.access(absolutePath, fs.constants.R_OK, error => {
-        console.log(`${file} ${error ? "is not readable" : "is readable"}`)
-      })
-
-      if (!fs.access(absolutePath)) {
-        process.stderr.write(`File not found: ${absolutePath}\n`)
-        process.exit(1)
-      }
-
-      const diagnosis = runTestFile(file)
-      const output = formatDiagnosis(diagnosis)
-
-      if (diagnosis.pass) {
-        process.stdout.write(`${output}\n`)
+    return diagnosis
+  })
+  // eslint-disable-next-line unicorn/no-array-reduce
+  .reduce(
+    (acc, diagnosis) => {
+      if (diagnosis.errors.length === 0) {
+        acc.passCount += 1
       } else {
-        process.stderr.write(`${output}\n`)
+        acc.failCount += 1
       }
+      acc.duration = [
+        acc.duration[0] + diagnosis.duration[0],
+        acc.duration[1] + diagnosis.duration[1],
+      ]
 
-      return diagnosis
-    })
-    .reduce(
-      (acc, diagnosis) => ({
-        passCount: acc.passCount + (diagnosis.pass ? 1 : 0),
-        failCount: acc.failCount + (diagnosis.pass ? 0 : 1),
-      }),
-      { passCount: 0, failCount: 0 }
-    )
+      return acc
+    },
+    {
+      passCount: 0,
+      failCount: 0,
+      duration: /** @type {[number, number]} */ ([0, 0]),
+    }
+  )
 
-  process.stdout.write(`\n${formatStats(stats)}\n`)
+process.stdout.write(`\n${formatSuiteResult(stats)}\n`)
 
-  process.exit(stats.failCount === 0 ? 0 : 1)
-})
+if (stats.failCount > 0) {
+  process.exit(1)
+}
+
+process.exit(0)

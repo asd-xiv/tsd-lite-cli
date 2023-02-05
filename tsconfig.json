@@ -1,15 +1,9 @@
 {
-  "include": ["src", "example", "bin", "jest.config.js", "jest.setup.js"],
+  "include": ["lib", "bin"],
   "exclude": ["**/node_modules"],
   "compilerOptions": {
-    "module": "commonjs",
-    "target": "es6",
-    "sourceMap": false,
-    "declaration": false,
     "allowJs": true,
     "checkJs": true,
-    "jsx": "preserve",
-
     "strict": true,
 		"noImplicitReturns": true,
 		"noImplicitOverride": true,
@@ -18,10 +12,8 @@
 		"noFallthroughCasesInSwitch": true,
 		"noUncheckedIndexedAccess": true,
 		"noPropertyAccessFromIndexSignature": true,
-		"useDefineForClassFields": true,
 		"forceConsistentCasingInFileNames": true,
 		"skipLibCheck": true,
-    "noEmit": true,
 
     // ESM doesn't yet support JSON modules
     "resolveJsonModule": false,
