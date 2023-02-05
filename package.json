@@ -23,6 +23,7 @@
   },
   "scripts": {
     "----UTIL": "",
+    "prepare": "git config core.hooksPath .githooks",
     "setup": "npm ci --prefer-offline --no-audit",
     "update": "ncu --interactive",
     "postupdate": "npm audit fix",
