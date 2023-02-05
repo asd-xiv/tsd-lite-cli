@@ -1,0 +1,11 @@
+#!/bin/sh -e
+
+# Keep npm packages synced if package-lock.json changed
+
+packageLockChanged=$(git diff-tree -r --name-only --no-commit-id ORIG_HEAD HEAD \
+  | grep --count "package-lock.json" \
+)
+
+if [ "$packageLockChanged" != "0" ]; then
+  npm run setup
+fi
