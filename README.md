@@ -23,7 +23,7 @@
 ## Install
 
 ```sh
-npm install -save-dev @tsd/typescript tsd-lite tsd-lite-cli
+npm install --save-dev @tsd/typescript tsd-lite tsd-lite-cli
 ```
 
 ## Usage
