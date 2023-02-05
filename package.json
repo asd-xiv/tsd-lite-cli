@@ -3,6 +3,14 @@
   "version": "1.0.0",
   "description": "Test runner for testing TypeScript typings",
   "license": "MIT",
+  "homepage": "https://github.com/asd-xiv/tsd-lite-cli/#readme",
+  "bugs": {
+    "url": "https://github.com/asd-xiv/tsd-lite-cli/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/asd-xiv/tsd-lite-cli.git"
+  },
   "keywords": [
     "typescript",
     "test",
