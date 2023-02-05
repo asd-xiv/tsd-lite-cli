@@ -1,6 +1,7 @@
 # tsd-lite-cli
 
-> Test runner for testing TypeScript typings (CLI over [tsd-lite][intro_tsd-lite], a "per file" version of [tsd][intro_tsd]).
+> Test runner for testing TypeScript typings (CLI over
+> [tsd-lite][intro_tsd-lite], a "per file" version of [tsd][intro_tsd]).
 
 ![tsd-lite-cli demo](docs/demo.png "tsd-lite-cli demo")
 
@@ -45,22 +46,24 @@ npx tsd-lite 'src/**/*.test-d.ts'
 ## Example test file
 
 ```typescript
-import { expectType, expectError } from "tsd-lite";
-import concat from "./concat.js";
+import { expectType, expectError } from "tsd-lite"
+import concat from "./concat.js"
 
-expectType<Promise<string>>(concat("foo", "bar"));
-expectType<string>(await concat("foo", "bar"));
-expectError(await concat(true, false));
+expectType<Promise<string>>(concat("foo", "bar"))
+expectType<string>(await concat("foo", "bar"))
+expectError(await concat(true, false))
 ```
 
-For more information, see [tsd][example_tsd] for assertion syntax and [tsd-lite][example_tsd-lite].
+For more information, see [tsd][example_tsd] for assertion syntax and
+[tsd-lite][example_tsd-lite].
 
 [example_tsd]: https://github.com/SamVerschueren/tsd
 [example_tsd-lite]: https://github.com/mrazauskas/tsd-lite
 
 ## Similar projects
 
-- [jest-runner-tsd](similar_jest-runner-tsd) - Jest runner to test TypeScript typings 
+- [jest-runner-tsd][similar_jest-runner-tsd] - Jest runner to test TypeScript
+  typings
 
 [similar_jest-runner-tsd]: https://github.com/jest-community/jest-runner-tsd
 
