@@ -81,8 +81,8 @@ jobs:
             npm run lint
 
   # Required env vars:
-  #  - GITHUB_TOKEN: needs access to push a tag, create a release and commit
-  #    version changes to package.json and package-lock.json
+  #  - GITHUB_TOKEN: needs access to create a tag, release and commit version
+  #  changes to package.json and package-lock.json
   #  - NPM_TOKEN: needs access to publish to npm
   release-npm:
     executor: node-lts
