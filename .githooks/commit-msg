@@ -1,5 +1,10 @@
 #!/bin/sh -e
 
+# Skip in CI
+if [ -n "$CI" ]; then
+  exit 0
+fi
+
 # Remove comments from commit message to not trigger [body-max-line-length]
 message=$(sed '/^#/d' < "$1")
 
