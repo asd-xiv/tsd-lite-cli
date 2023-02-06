@@ -2,6 +2,9 @@
   "include": ["lib", "bin"],
   "exclude": ["**/node_modules"],
   "compilerOptions": {
+    "module": "esnext",
+    "moduleResolution": "node",
+    "target": "esnext",
     "allowJs": true,
     "checkJs": true,
     "strict": true,
@@ -14,13 +17,7 @@
 		"noPropertyAccessFromIndexSignature": true,
 		"forceConsistentCasingInFileNames": true,
 		"skipLibCheck": true,
-
-    // ESM doesn't yet support JSON modules
     "resolveJsonModule": false,
-
-    // To provide backwards compatibility, Node.js allows you to import
-    // most CommonJS packages with a default import. This flag tells TypeScript
-    // that it's okay to use import on CommonJS modules.
 		"allowSyntheticDefaultImports": true,
     "incremental": true
   }
