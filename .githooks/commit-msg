@@ -1,6 +1,7 @@
 #!/bin/sh -e
 
-# Skip in CI
+# Skip commitlint validation if CI since semantic-release will output the
+# changelog in the commit message and will fail the validation
 if [ -n "$CI" ]; then
   exit 0
 fi
