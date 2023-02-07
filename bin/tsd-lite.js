@@ -31,20 +31,21 @@ if (major < required) {
  * CLI specific logic via "commander"
  */
 
-const { name, description, version } = await getPackageInfo()
+const { description, version } = await getPackageInfo()
+const processStartAt = process.hrtime()
 
 program
-  .name(name)
+  .name("tsd-lite")
   .description(description)
-  .version(version, "-v, --version", "Display version number")
-  .helpOption("-h, --help", "Display this help guide")
+  .version(version, "-v, --version", "Print version number")
+  .helpOption("-h, --help", "Print this help guide")
   .showSuggestionAfterError()
   .addOption(
-    new Option("-r, --reporter <name>", "Print results using reporter")
+    new Option("-r, --reporter <name>", "Print test results using reporter")
       .default("tap")
       .choices(["tap", "fancy"])
   )
-  .argument("globPatterns...", "Typing test files glob patterns")
+  .argument("globPatterns...", "Glob patterns for matching test files")
   .action(async (globPatterns, { reporter: reporterName }) => {
     const reporter = reporterName === "tap" ? tapReporter : fancyReporter
     const files = fastGlob.sync(globPatterns, { absolute: true })
@@ -52,7 +53,6 @@ program
     process.stdout.write(
       `${reporter.formatIntro({
         count: files.length,
-        description: program.description(),
       })}\n`
     )
 
@@ -67,7 +67,7 @@ program
       },
       onSuiteFinish: results => {
         // eslint-disable-next-line unicorn/no-array-reduce
-        const stats = results.reduce(
+        const { passCount, failCount } = results.reduce(
           (acc, testResult) => {
             if (testResult.errors.length === 0) {
               acc.passCount += 1
@@ -75,23 +75,20 @@ program
               acc.failCount += 1
             }
 
-            acc.duration = [
-              acc.duration[0] + testResult.duration[0],
-              acc.duration[1] + testResult.duration[1],
-            ]
-
             return acc
           },
-          {
-            passCount: 0,
-            failCount: 0,
-            duration: /** @type {[number, number]} */ ([0, 0]),
-          }
+          { passCount: 0, failCount: 0 }
         )
 
-        process.stdout.write(`\n${reporter.formatSuite(stats)}\n`)
+        process.stdout.write(
+          `\n${reporter.formatSuite({
+            passCount,
+            failCount,
+            duration: process.hrtime(processStartAt),
+          })}\n`
+        )
 
-        if (stats.failCount > 0) {
+        if (failCount > 0) {
           process.exit(1)
         }
 
