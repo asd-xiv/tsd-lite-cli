@@ -74,5 +74,5 @@ For more information, see [tsd][example_tsd] for assertion syntax and
 
 ## Changelog
 
-See the [releases section](https://github.com/asd14-xyz/tsd-lite-cli/releases)
+See the [releases section](https://github.com/asd-xiv/tsd-lite-cli/releases)
 for details.

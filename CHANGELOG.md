@@ -7,4 +7,4 @@
 
 [semantic-release-github]: https://github.com/semantic-release/semantic-release
 [cc]: https://www.conventionalcommits.org
-[github-releases]: https://github.com/andreidmt/releases
+[github-releases]: https://github.com/asd-xiv/tsd-lite-cli/releases
