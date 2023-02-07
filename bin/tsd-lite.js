@@ -53,6 +53,7 @@ program
     process.stdout.write(
       `${reporter.formatIntro({
         count: files.length,
+        description: `Matching ${globPatterns.join(", ")} glob patterns`,
       })}\n`
     )
 
