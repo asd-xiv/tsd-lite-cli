@@ -2,7 +2,7 @@ import type { TestResult } from "../runTest.js"
 
 type IntroFormatter = (props: { count: number }) => string
 
-type TestFormatter = (props: { index?: number; result: TestResult }) => string
+type TestFormatter = (props: { index: number; result: TestResult }) => string
 
 type SuiteFormatter = (props: {
   passCount: number
