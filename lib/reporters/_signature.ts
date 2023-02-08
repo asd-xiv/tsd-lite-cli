@@ -1,6 +1,6 @@
 import type { TestResult } from "../runTest.js"
 
-type IntroFormatter = (props: { count: number; description: string }) => string
+type IntroFormatter = (props: { count: number; patterns: string[] }) => string
 
 type TestFormatter = (props: { index: number; result: TestResult }) => string
 

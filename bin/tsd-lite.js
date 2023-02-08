@@ -45,15 +45,15 @@ program
       .default("tap")
       .choices(["tap", "fancy"])
   )
-  .argument("globPatterns...", "Glob patterns for matching test files")
-  .action(async (globPatterns, { reporter: reporterName }) => {
+  .argument("patterns...", "Glob patterns for matching test files")
+  .action(async (patterns, { reporter: reporterName }) => {
     const reporter = reporterName === "tap" ? tapReporter : fancyReporter
-    const files = fastGlob.sync(globPatterns, { absolute: true })
+    const files = fastGlob.sync(patterns, { absolute: true })
 
     process.stdout.write(
       `${reporter.formatIntro({
         count: files.length,
-        description: `Matching ${globPatterns.join(", ")} glob patterns`,
+        patterns,
       })}\n`
     )
 
