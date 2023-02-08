@@ -5,13 +5,18 @@
 
 # tsd-lite-cli
 
-> Test runner for testing TypeScript typings (CLI over
-> [tsd-lite][intro_tsd-lite], a "per file" version of [tsd][intro_tsd]).
+Test runner for testing TypeScript typings (CLI over
+[tsd-lite][intro_tsd-lite], a "per file" version of [tsd][intro_tsd]).
 
-![tsd-lite-cli demo](docs/demo.png "tsd-lite-cli demo")
+- :mag: [Glob][intro_fast-glob] pattern matching
+- :white_check_mark: [TAP][intro_tap] compatible output
+
+![tsd-lite-cli default tap output](docs/reporter-tap.png "tsd-lite-cli default tap output")
 
 [intro_tsd]: https://github.com/SamVerschueren/tsd
 [intro_tsd-lite]: https://github.com/mrazauskas/tsd-lite
+[intro_fast-glob]: https://github.com/mrmlnc/fast-glob
+[intro_tap]: https://testanything.org
 
 ## Table of Contents
 
@@ -19,7 +24,9 @@
 
 - [Install](#install)
 - [Usage](#usage)
-- [Example test file](#example-test-file)
+  - [Example typing test file](#example-typing-test-file)
+- [CLI interface](#cli-interface)
+  - [Reporters](#reporters)
 - [Similar projects](#similar-projects)
 - [Changelog](#changelog)
 
@@ -27,28 +34,22 @@
 
 ## Install
 
-```sh
+```shell-session
 npm install --save-dev @tsd/typescript tsd-lite tsd-lite-cli
 ```
 
 ## Usage
 
-```sh
+Run `tsd-lite` with a glob pattern for matching test files (uses
+[fast-glob][usage_fast-glob] internally):
+
+```shell-session
 npx tsd-lite 'src/**/*.test-d.ts'
 ```
 
-... or add a script to your `package.json`:
+[usage_fast-glob]: https://github.com/mrmlnc/fast-glob
 
-```json
-{
-  "scripts": {
-    "test.types": "tsd-lite 'src/**/*.test-d.ts'",
-    ...
-  }
-}
-```
-
-## Example test file
+### Example typing test file
 
 ```typescript
 import { expectType, expectError } from "tsd-lite"
@@ -59,11 +60,39 @@ expectType<string>(await concat("foo", "bar"))
 expectError(await concat(true, false))
 ```
 
-For more information, see [tsd][example_tsd] for assertion syntax and
-[tsd-lite][example_tsd-lite].
+For more information, see [tsd-lite][example_tsd-lite] for assertion syntax.
 
-[example_tsd]: https://github.com/SamVerschueren/tsd
 [example_tsd-lite]: https://github.com/mrazauskas/tsd-lite
+
+## CLI interface
+
+```console
+$ npx tsd-lite --help
+
+Usage: tsd-lite [options] <patterns...>
+
+Test runner for testing TypeScript typings (CLI over tsd-lite, a "per file"
+version of tsd)
+
+Arguments:
+  patterns               Glob patterns for matching test files
+
+Options:
+  -v, --version          Print version number
+  -r, --reporter <name>  Print test results using reporter 
+                         (choices: "tap", "fancy", default: "tap")
+  -h, --help             Print this help guide
+```
+
+### Reporters
+
+By default, `tsd-lite-cli` writes [Test Anything Protocol][cli_tap] compatible
+output, but you can also use the `fancy` reporter, which writes a more
+human-friendly output:
+
+![tsd-lite-cli fancy output](docs/reporter-fancy.png "tsd-lite-cli fancy output")
+
+[cli_tap]: https://testanything.org
 
 ## Similar projects
 
