@@ -1,4 +1,20 @@
 {
   "extends": ["@commitlint/config-conventional"],
-  "rules": {}
+  "rules": {
+    "scope-enum": [
+      2,
+      "always",
+      [
+        "reporters",
+        "reporter-tap",
+        "reporter-fancy",
+        "runner",
+        "utils",
+        "utils-colors",
+        "utils-node",
+        "cli",
+        "githooks"
+      ]
+    ]
+  }
 }
