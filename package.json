@@ -1,6 +1,6 @@
 {
   "name": "tsd-lite-cli",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "Test runner for testing TypeScript typings (CLI over tsd-lite, a \"per file\" version of tsd)",
   "license": "MIT",
   "homepage": "https://github.com/asd-xiv/tsd-lite-cli/#readme",
