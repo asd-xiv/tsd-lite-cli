@@ -35,7 +35,7 @@ Test runner for testing TypeScript typings (CLI over
 ## Install
 
 ```shell-session
-npm install --save-dev @tsd/typescript tsd-lite tsd-lite-cli
+npm install --save-dev @tsd/typescript tsd-lite-cli
 ```
 
 ## Usage
