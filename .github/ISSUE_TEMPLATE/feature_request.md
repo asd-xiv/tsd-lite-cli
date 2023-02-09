@@ -1,8 +1,8 @@
 ---
 name: Feature request
-about: Suggest an idea
+about: Suggest a new feature or improvement
 title: ""
-labels: "enhancement, needs-triage"
+labels: "enhancement,triage"
 assignees: ""
 ---
 
