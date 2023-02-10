@@ -11,7 +11,7 @@ Test runner for testing TypeScript typings (CLI over
 - :mag: [Glob][intro_fast-glob] pattern matching
 - :white_check_mark: [TAP][intro_tap] compatible output
 
-![tsd-lite-cli default tap output](docs/reporter-tap.png "tsd-lite-cli default tap output")
+![tsd-lite-cli default colored tap output](docs/default-output.png "tsd-lite-cli default colored tap output")
 
 [intro_tsd]: https://github.com/SamVerschueren/tsd
 [intro_tsd-lite]: https://github.com/mrazauskas/tsd-lite
@@ -26,7 +26,7 @@ Test runner for testing TypeScript typings (CLI over
 - [Usage](#usage)
   - [Example typing test file](#example-typing-test-file)
 - [CLI interface](#cli-interface)
-  - [Reporters](#reporters)
+  - [`--color` and `--no-color`](#--color-and---no-color)
 - [Similar projects](#similar-projects)
 - [Changelog](#changelog)
 
@@ -66,31 +66,34 @@ For more information, see [tsd-lite][example_tsd-lite] for assertion syntax.
 
 ## CLI interface
 
-```console
-$ npx tsd-lite --help
-
+```shell-session
 Usage: tsd-lite [options] <patterns...>
 
 Test runner for testing TypeScript typings (CLI over tsd-lite, a "per file"
 version of tsd)
 
 Arguments:
-  patterns               Glob patterns for matching test files
+  patterns       Glob patterns for matching test files
 
 Options:
-  -v, --version          Print version number
-  -r, --reporter <name>  Print test results using reporter 
-                         (choices: "tap", "fancy", default: "tap")
-  -h, --help             Print this help guide
+  -v, --version  Print version number
+  -c, --color    Output colored TAP for better human consumption. Disabled in
+                 CI environments if not explicitly set (default: true)
+  --no-color     Disable colored TAP, usefull when piping to other tools
+  -h, --help     Print this help guide
 ```
 
-### Reporters
+### `--color` and `--no-color`
 
-By default, `tsd-lite-cli` writes [Test Anything Protocol][cli_tap] compatible
-output, but you can also use the `fancy` reporter, which writes a more
-human-friendly output:
+By default, `tsd-lite-cli` outputs a colored version of [Test Anything
+Protocol][cli_tap] for better readability. This can be disabled by setting
+`--no-color` when piping to other tools like `tap-spec`:
 
-![tsd-lite-cli fancy output](docs/reporter-fancy.png "tsd-lite-cli fancy output")
+```shell-session
+npx tsd-lite 'src/**/*.test-d.ts' --no-color | npx tap-spec
+```
+
+![tsd-lite-cli --no-color output piped to tap-spec](docs/output-no-color_tap-spec.png "tsd-lite-cli --no-color output piped to tap-spec")
 
 [cli_tap]: https://testanything.org
 

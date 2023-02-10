@@ -46,7 +46,7 @@ program
   )
   .option(
     "--no-color",
-    "Dont output colored TAP, usefull when piping to other tools"
+    "Disable colored TAP, usefull when piping to other tools"
   )
   .argument("<patterns...>", "Glob patterns for matching test files")
   .action(async (patterns, { color: hasColor }) => {
