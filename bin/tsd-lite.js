@@ -1,14 +1,12 @@
 #!/usr/bin/env node
 
 import fastGlob from "fast-glob"
-import { Option, program } from "commander"
+import { program } from "commander"
 
-import tapReporter from "../lib/reporters/tap.js"
-import fancyReporter from "../lib/reporters/fancy.js"
-
+import tapReporter from "../lib/run-one.tap-reporter.js"
 import { getNodeVersion, getPackageInfo } from "../lib/utils/node.js"
-import { green, red } from "../lib/utils/colors.js"
-import { runSuite } from "../lib/runSuite.js"
+import { green, red } from "../lib/utils/terminal-text.js"
+import { runSuite } from "../lib/run-many.js"
 
 /**
  * Node.js version guard
@@ -33,6 +31,7 @@ if (major < required) {
 
 const { description, version } = await getPackageInfo()
 const processStartAt = process.hrtime()
+const isCI = process.env["CI"] === "true"
 
 program
   .name("tsd-lite")
@@ -40,29 +39,34 @@ program
   .version(version, "-v, --version", "Print version number")
   .helpOption("-h, --help", "Print this help guide")
   .showSuggestionAfterError()
-  .addOption(
-    new Option("-r, --reporter <name>", "Print test results using reporter")
-      .default("tap")
-      .choices(["tap", "fancy"])
+  .option(
+    "-c, --color",
+    "Output colored TAP for better human consumption. Disabled in CI environments if not explicitly set.",
+    !isCI
   )
-  .argument("patterns...", "Glob patterns for matching test files")
-  .action(async (patterns, { reporter: reporterName }) => {
-    const reporter = reporterName === "tap" ? tapReporter : fancyReporter
+  .option(
+    "--no-color",
+    "Dont output colored TAP, usefull when piping to other tools"
+  )
+  .argument("<patterns...>", "Glob patterns for matching test files")
+  .action(async (patterns, { color: hasColor }) => {
     const files = fastGlob.sync(patterns, { absolute: true })
 
     process.stdout.write(
-      `${reporter.formatIntro({
+      `${tapReporter.formatIntro({
         count: files.length,
         patterns,
+        hasColor,
       })}\n`
     )
 
     runSuite(files, {
       onTestFinish: (result, index) => {
         process.stdout.write(
-          `${reporter.formatTest({
+          `${tapReporter.formatTest({
             index,
             result,
+            hasColor,
           })}\n`
         )
       },
@@ -82,10 +86,11 @@ program
         )
 
         process.stdout.write(
-          `\n${reporter.formatSuite({
+          `\n${tapReporter.formatSuite({
             passCount,
             failCount,
             duration: process.hrtime(processStartAt),
+            hasColor,
           })}\n`
         )
 
