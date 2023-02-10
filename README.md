@@ -11,7 +11,7 @@ Test runner for testing TypeScript typings (CLI over
 - :mag: [Glob][intro_fast-glob] pattern matching
 - :white_check_mark: [TAP][intro_tap] compatible output
 
-![tsd-lite-cli default colored tap output](docs/default-output.png "tsd-lite-cli default colored tap output")
+![tsd-lite-cli default colored tap output](docs/output-default.png "tsd-lite-cli default colored tap output")
 
 [intro_tsd]: https://github.com/SamVerschueren/tsd
 [intro_tsd-lite]: https://github.com/mrazauskas/tsd-lite
