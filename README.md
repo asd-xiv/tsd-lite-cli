@@ -6,13 +6,14 @@
 
 # tsd-lite-cli
 
-Test runner for testing TypeScript typings (CLI over
-[tsd-lite][intro_tsd-lite], a "per file" version of [tsd][intro_tsd]).
+Test runner for testing TypeScript typings. CLI over
+[`tsd-lite`][intro_tsd-lite], a per-file version of [`tsd`][intro_tsd].
 
 - :mag: [Glob][intro_fast-glob] pattern matching
 - :white_check_mark: [TAP][intro_tap] compatible output
 
-![tsd-lite-cli default colored tap output](docs/output-default.png "tsd-lite-cli default colored tap output")
+![tsd-lite-cli default colored tap output](docs/output-default.png
+"tsd-lite-cli default colored tap output")
 
 [intro_tsd]: https://github.com/SamVerschueren/tsd
 [intro_tsd-lite]: https://github.com/mrazauskas/tsd-lite
@@ -24,10 +25,10 @@ Test runner for testing TypeScript typings (CLI over
 <!-- vim-markdown-toc GFM -->
 
 - [Install](#install)
+  - [`tsd-lite`](#tsd-lite)
+  - [`@tsd/typescript`](#tsdtypescript)
 - [Usage](#usage)
-  - [Example typing test file](#example-typing-test-file)
-- [CLI interface](#cli-interface)
-  - [`--color` and `--no-color`](#--color-and---no-color)
+  - [CLI interface](#cli-interface)
 - [Similar projects](#similar-projects)
 - [Changelog](#changelog)
 
@@ -35,24 +36,20 @@ Test runner for testing TypeScript typings (CLI over
 
 ## Install
 
-```shell-session
-npm install --save-dev @tsd/typescript tsd-lite-cli
+```console
+npm install --save-dev @tsd/typescript tsd-lite tsd-lite-cli
 ```
 
-## Usage
+Besides `tsd-lite-cli`, you also need `tsd-lite` and `@tsd/typescript` which
+are listed as peer dependencies.
 
-Run `tsd-lite` with a glob pattern for matching test files (uses
-[fast-glob][usage_fast-glob] internally):
+### `tsd-lite`
 
-```shell-session
-npx tsd-lite 'src/**/*.test-d.ts'
-```
-
-[usage_fast-glob]: https://github.com/mrmlnc/fast-glob
-
-### Example typing test file
+Contains the actual assertion functions. For more information, see
+[tsd-lite][install_tsd-lite].
 
 ```typescript
+// src/concat.test-d.ts
 import { expectType, expectError } from "tsd-lite"
 import concat from "./concat.js"
 
@@ -61,13 +58,32 @@ expectType<string>(await concat("foo", "bar"))
 expectError(await concat(true, false))
 ```
 
-For more information, see [tsd-lite][example_tsd-lite] for assertion syntax.
+[install_tsd-lite]: https://github.com/mrazauskas/tsd-lite
 
-[example_tsd-lite]: https://github.com/mrazauskas/tsd-lite
+### `@tsd/typescript`
 
-## CLI interface
+Compiles the TypeScript test files. It's version should be synced with the
+`typescript` version in your project. For more information, see
+[`@tsd/typescript`][install_tsd-typescript].
 
-```shell-session
+[install_tsd-typescript]: https://github.com/SamVerschueren/tsd-typescript
+
+## Usage
+
+Run `tsd-lite` with a glob pattern for matching test files - uses
+[`fast-glob`][usage_fast-glob] internally:
+
+```console
+npx tsd-lite 'src/**/*.test-d.ts'
+```
+
+[usage_fast-glob]: https://github.com/mrmlnc/fast-glob
+
+### CLI interface
+
+```console
+$ npx tsd-lite --help
+
 Usage: tsd-lite [options] <patterns...>
 
 Test runner for testing TypeScript typings (CLI over tsd-lite, a "per file"
@@ -84,23 +100,33 @@ Options:
   -h, --help     Print this help guide
 ```
 
-### `--color` and `--no-color`
+#### `--color` and `--no-color`
 
 By default, `tsd-lite-cli` outputs a colored version of [Test Anything
-Protocol][cli_tap] for better readability. This can be disabled by setting
-`--no-color` when piping to other tools like `tap-spec`:
+Protocol][cli_tap] for better readability. Can be disabled by setting
+`--no-color` when piping to other tools, e.g. [`tap-spec`][cli_tap-spec].
 
-```shell-session
+```console
+npx tsd-lite 'src/**/*.test-d.ts' --no-color
+```
+
+![tsd-lite-cli --no-color output](docs/output-no-color.png "tsd-lite-cli
+--no-color output")
+
+```console
 npx tsd-lite 'src/**/*.test-d.ts' --no-color | npx tap-spec
 ```
 
-![tsd-lite-cli --no-color output piped to tap-spec](docs/output-no-color_tap-spec.png "tsd-lite-cli --no-color output piped to tap-spec")
+![tsd-lite-cli --no-color output piped to
+tap-spec](docs/output-no-color_tap-spec.png "tsd-lite-cli --no-color output
+piped to tap-spec")
 
 [cli_tap]: https://testanything.org
+[cli_tap-spec]: https://github.com/scottcorgan/tap-spec
 
 ## Similar projects
 
-- [jest-runner-tsd][similar_jest-runner-tsd] - Jest runner to test TypeScript
+- [`jest-runner-tsd`][similar_jest-runner-tsd] - Jest runner to test TypeScript
   typings
 
 [similar_jest-runner-tsd]: https://github.com/jest-community/jest-runner-tsd

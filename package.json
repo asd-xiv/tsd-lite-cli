@@ -1,7 +1,7 @@
 {
   "name": "tsd-lite-cli",
   "version": "2.1.0",
-  "description": "Test runner for testing TypeScript typings (CLI over tsd-lite, a \"per file\" version of tsd)",
+  "description": "Test runner for testing TypeScript typings. CLI over tsd-lite, a per-file version of tsd",
   "license": "MIT",
   "homepage": "https://github.com/asd-xiv/tsd-lite-cli/#readme",
   "bugs": {
@@ -16,13 +16,14 @@
     "url": "https://github.com/andreidmt"
   },
   "keywords": [
+    "cli",
     "typescript",
-    "test",
-    "tsd",
-    "tsd-lite",
     "types",
+    "test",
     "typings",
-    "cli"
+    "typing-test",
+    "tsd",
+    "tsd-lite"
   ],
   "sideEffects": false,
   "type": "module",
@@ -60,11 +61,11 @@
   },
   "dependencies": {
     "commander": "^10.0.0",
-    "fast-glob": "^3.2.12",
-    "tsd-lite": "^0.6.0"
+    "fast-glob": "^3.2.12"
   },
   "peerDependencies": {
-    "@tsd/typescript": "^4.9.5"
+    "@tsd/typescript": "^4.9.5",
+    "tsd-lite": "^0.6.0"
   },
   "devDependencies": {
     "@asd14/eslint-config": "^9.2.0",
