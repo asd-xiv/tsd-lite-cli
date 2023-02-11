@@ -3,7 +3,7 @@
 import fastGlob from "fast-glob"
 import { program } from "commander"
 
-import tapReporter from "../lib/run-one.tap-reporter.js"
+import tapReporter from "../lib/tap-reporter.js"
 import { getNodeVersion, getPackageInfo } from "../lib/utils/node.js"
 import { green, red } from "../lib/utils/terminal-text.js"
 import { runSuite } from "../lib/run-many.js"
@@ -53,7 +53,7 @@ program
     const files = fastGlob.sync(patterns, { absolute: true })
 
     process.stdout.write(
-      `${tapReporter.formatIntro({
+      `${tapReporter.formatPlan({
         count: files.length,
         patterns,
         hasColor,
@@ -86,7 +86,7 @@ program
         )
 
         process.stdout.write(
-          `\n${tapReporter.formatSuite({
+          `\n${tapReporter.formatSummary({
             passCount,
             failCount,
             duration: process.hrtime(processStartAt),

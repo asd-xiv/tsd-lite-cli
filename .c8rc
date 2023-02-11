@@ -1,0 +1,15 @@
+{
+  "lines": 90,
+  "statements": 90,
+  "functions": 90,
+  "branches": 90,
+  "include": [
+    "lib/**/*.js",
+    "bin/**/*.js"
+  ],
+  "exclude": [
+    "lib/**/*.test.js"
+  ],
+  "all": true,
+  "reporter": ["text"]
+}

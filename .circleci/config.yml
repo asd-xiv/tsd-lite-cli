@@ -55,8 +55,8 @@ jobs:
       - attach_workspace:
           at: *WORKSPACE_ROOT
       - run:
-          name: "[tape]: Unit tests"
-          command: "npm test"
+          name: "[tape, c8]: Unit tests with coverage"
+          command: "npm run test.coverage"
 
   typecheck:
     executor: node-lts
@@ -96,6 +96,18 @@ jobs:
             package"
           command: "npm run release"
 
+  # Required env vars:
+  # - COVERALLS_REPO_TOKEN: access token to submit data to coveralls.io
+  submit-coverage:
+    executor: node-lts
+    working_directory: *JOB_WORKING_DIR
+    steps:
+      - attach_workspace:
+          at: *WORKSPACE_ROOT
+      - run:
+          name: "[c8, coveralls]: Publish test coverage to COVERALLS"
+          command: "npm run test.coverage-submit"
+
 # Workflows - https://circleci.com/docs/2.0/workflows/
 #
 # Treat workflows as a jobs/commands pipe:
@@ -119,6 +131,9 @@ workflows:
       - release-npm:
           requires: [test, typecheck, lint]
           context: ["GitHub Auth", "NPM Auth"]
+      - submit-coverage:
+          requires: [release-npm]
+          context: ["Coveralls - tsd-lite-cli"]
 
   test_pr-branches:
     jobs:
