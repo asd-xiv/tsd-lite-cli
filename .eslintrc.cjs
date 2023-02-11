@@ -1,7 +1,7 @@
 module.exports = {
-  "extends": ["@asd14/eslint-config/targets/node-ts"],
-  "root": true,
-  "rules": {
+  extends: ["@asd14/eslint-config/targets/node-ts"],
+  root: true,
+  rules: {
     // Delegate to TypeScript's noPropertyAccessFromIndexSignature
     "dot-notation": "off",
 
@@ -13,15 +13,13 @@ module.exports = {
     "import/no-extraneous-dependencies": [
       "error",
       {
-        "devDependencies": [
-          "**/*.+(test|test-d).+(ts|tsx)"
-        ]
-      }
-    ]
+        devDependencies: ["**/*.test-d.ts", "**/*.test.js"],
+      },
+    ],
   },
-  "settings": {
+  settings: {
     "import/cache": {
-      "lifetime": 5
-    }
-  }
+      lifetime: 5,
+    },
+  },
 }
