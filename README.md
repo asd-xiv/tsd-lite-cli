@@ -40,8 +40,8 @@ Test runner for testing TypeScript typings. CLI over
 npm install --save-dev @tsd/typescript tsd-lite tsd-lite-cli
 ```
 
-Besides `tsd-lite-cli`, you also need `tsd-lite` and `@tsd/typescript` which
-are listed as peer dependencies.
+Besides `tsd-lite-cli`, `tsd-lite` and `@tsd/typescript` are peer dependencies
+and must be installed as well.
 
 ### `tsd-lite`
 
