@@ -2,6 +2,7 @@
 
 [![CircleCI](https://dl.circleci.com/status-badge/img/gh/asd-xiv/tsd-lite-cli/tree/main.svg?style=svg)](https://dl.circleci.com/status-badge/redirect/gh/asd-xiv/tsd-lite-cli/tree/main)
 ![npm](https://img.shields.io/npm/v/tsd-lite-cli)
+[![Coverage Status](https://coveralls.io/repos/github/asd-xiv/tsd-lite-cli/badge.svg?branch=main)](https://coveralls.io/github/asd-xiv/tsd-lite-cli?branch=main)
 
 # tsd-lite-cli
 
