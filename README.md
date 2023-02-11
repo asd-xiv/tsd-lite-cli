@@ -36,7 +36,7 @@ Test runner for testing TypeScript typings. CLI over
 
 ## Install
 
-```console
+```bash
 npm install --save-dev @tsd/typescript tsd-lite tsd-lite-cli
 ```
 
@@ -46,7 +46,7 @@ are listed as peer dependencies.
 ### `tsd-lite`
 
 Contains the actual assertion functions. For more information, see
-[tsd-lite][install_tsd-lite].
+[`tsd-lite`][install_tsd-lite].
 
 ```typescript
 // src/concat.test-d.ts
@@ -73,7 +73,7 @@ Compiles the TypeScript test files. It's version should be synced with the
 Run `tsd-lite` with a glob pattern for matching test files - uses
 [`fast-glob`][usage_fast-glob] internally:
 
-```console
+```bash
 npx tsd-lite 'src/**/*.test-d.ts'
 ```
 
@@ -106,14 +106,14 @@ By default, `tsd-lite-cli` outputs a colored version of [Test Anything
 Protocol][cli_tap] for better readability. Can be disabled by setting
 `--no-color` when piping to other tools, e.g. [`tap-spec`][cli_tap-spec].
 
-```console
+```bash
 npx tsd-lite 'src/**/*.test-d.ts' --no-color
 ```
 
 ![tsd-lite-cli --no-color output](docs/output-no-color.png "tsd-lite-cli
 --no-color output")
 
-```console
+```bash
 npx tsd-lite 'src/**/*.test-d.ts' --no-color | npx tap-spec
 ```
 
