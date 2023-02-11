@@ -23,7 +23,8 @@
     "typings",
     "typing-test",
     "tsd",
-    "tsd-lite"
+    "tsd-lite",
+    "test-runner"
   ],
   "sideEffects": false,
   "type": "module",

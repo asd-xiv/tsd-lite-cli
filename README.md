@@ -6,7 +6,7 @@
 
 # tsd-lite-cli
 
-Test runner for testing TypeScript typings. CLI over
+:bug: :link: :runner: Test runner for testing TypeScript typings. CLI over
 [`tsd-lite`][intro_tsd-lite], a per-file version of [`tsd`][intro_tsd].
 
 - :mag: [Glob][intro_fast-glob] pattern matching
