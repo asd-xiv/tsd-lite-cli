@@ -10,7 +10,42 @@ executors:
       - image: zricethezav/gitleaks:latest
   node-lts:
     docker:
-      - image: cimg/node:18.13
+      - image: cimg/node:lts
+
+# Commands - https://circleci.com/docs/2.0/configuration-reference/#commands
+#
+# A command defines a sequence of steps as a map to be executed in a job,
+# enabling you to reuse a single command definition across multiple jobs
+
+commands:
+  restore-cache-node_modules:
+    steps:
+      - restore_cache:
+          name: "[cache] Restore \"node_modules\""
+          keys:
+            - &CACHE-KEY-NODE_MODULES v1-node_modules-{{ checksum "package-lock.json" }}
+            - v1-node_modules-
+  save-cache-node_modules:
+    steps:
+      - save_cache:
+          name: "[cache] Save \"node_modules\""
+          key: *CACHE-KEY-NODE_MODULES
+          paths:
+            - node_modules
+  restore-cache-npm:
+    steps:
+      - restore_cache:
+          name: "[cache] Restore \".npm\""
+          keys:
+            - &CACHE-KEY-NPM v1-npm-{{ checksum "package-lock.json" }}
+            - v1-npm-
+  save-cache-npm:
+    steps:
+      - save_cache:
+          name: "[cache] Save \".npm\""
+          key: *CACHE-KEY-NPM
+          paths:
+            - .npm
 
 # Jobs - https://circleci.com/docs/2.0/configuration-reference/#jobs
 #
@@ -20,65 +55,49 @@ executors:
 jobs:
   detect-secrets:
     executor: gitleaks
-    working_directory: &JOB_WORKING_DIR "~/tsd-lite-cli"
     steps:
       - checkout
       - run:
           name: "[gitleaks] Detect secrets in repository history"
-          command: |
-            gitleaks detect --redact --verbose
-      - persist_to_workspace:
-          root: &WORKSPACE_ROOT "~/"
-          paths:
-            - tsd-lite-cli
+          command: gitleaks detect --redact --verbose
 
   setup:
     executor: node-lts
-    working_directory: *JOB_WORKING_DIR
     steps:
-      - attach_workspace:
-          at: *WORKSPACE_ROOT
+      - checkout
+      - restore-cache-node_modules
+      - restore-cache-npm
       - run:
-          name: "[npm]: Install packages"
+          name: "[npm] Install packages"
           command: |
             node -v && npm -v
             npm run setup
-      - persist_to_workspace:
-          root: *WORKSPACE_ROOT
-          paths:
-            - tsd-lite-cli
+      - save-cache-node_modules
+      - save-cache-npm
 
   test:
     executor: node-lts
-    working_directory: *JOB_WORKING_DIR
     steps:
-      - attach_workspace:
-          at: *WORKSPACE_ROOT
+      - restore-cache-node_modules
       - run:
-          name: "[tape, c8]: Unit tests with coverage"
-          command: "npm run test.coverage"
+          name: "[tape, c8] Unit tests with coverage"
+          command: npm run test.coverage
 
   typecheck:
     executor: node-lts
-    working_directory: *JOB_WORKING_DIR
     steps:
-      - attach_workspace:
-          at: *WORKSPACE_ROOT
+      - restore-cache-node_modules
       - run:
-          name: "[tsc]: Typecheck"
-          command: |
-            npm run typecheck
+          name: "[tsc] Typecheck"
+          command: npm run typecheck
 
   lint:
     executor: node-lts
-    working_directory: *JOB_WORKING_DIR
     steps:
-      - attach_workspace:
-          at: *WORKSPACE_ROOT
+      - restore-cache-node_modules
       - run:
-          name: "[eslint, markdownlint]: Lint"
-          command: |
-            npm run lint
+          name: "[eslint, markdownlint] Lint"
+          command: npm run lint
 
   # Required env vars:
   #  - GITHUB_TOKEN: needs access to create a tag, release and commit version
@@ -86,27 +105,23 @@ jobs:
   #  - NPM_TOKEN: needs access to publish to npm
   release-npm:
     executor: node-lts
-    working_directory: *JOB_WORKING_DIR
     steps:
-      - attach_workspace:
-          at: *WORKSPACE_ROOT
+      - restore-cache-node_modules
       - run:
           name:
-            "[semantic-release]: Update version, generate release, publish npm
+            "[semantic-release] Update version, generate release, publish npm
             package"
-          command: "npm run release"
+          command: npm run release
 
   # Required env vars:
   # - COVERALLS_REPO_TOKEN: access token to submit data to coveralls.io
   submit-coverage:
     executor: node-lts
-    working_directory: *JOB_WORKING_DIR
     steps:
-      - attach_workspace:
-          at: *WORKSPACE_ROOT
+      - restore-cache-node_modules
       - run:
-          name: "[c8, coveralls]: Publish test coverage to COVERALLS"
-          command: "npm run test.coverage-submit"
+          name: "[c8, coveralls] Publish test coverage to COVERALLS"
+          command: npm run test.coverage-submit
 
 # Workflows - https://circleci.com/docs/2.0/workflows/
 #
@@ -135,7 +150,7 @@ workflows:
           requires: [release-npm]
           context: ["Coveralls - tsd-lite-cli"]
 
-  test_pr-branches:
+  test-pr:
     jobs:
       - detect-secrets:
           filters:
