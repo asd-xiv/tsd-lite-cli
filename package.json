@@ -39,7 +39,7 @@
   "scripts": {
     "----UTIL": "",
     "prepare": "git config core.hooksPath .githooks",
-    "setup": "npm ci --prefer-offline --no-audit",
+    "setup": "npm ci --cache .npm --prefer-offline --no-audit",
     "update": "ncu --interactive",
     "postupdate": "npm audit fix",
     "format": "npm run lint.js -- --fix",
@@ -56,7 +56,8 @@
     "release": "semantic-release"
   },
   "lint-staged": {
-    "*.{ts,js,json}": "eslint --quiet",
+    "*.{ts,js}": "eslint --quiet",
+    "*.json": "prettier",
     "*.md": "markdownlint",
     ".circleci/config.yml": "circleci config validate"
   },
@@ -65,29 +66,29 @@
     "fast-glob": "^3.2.12"
   },
   "peerDependencies": {
-    "@tsd/typescript": "^4.9.5",
+    "@tsd/typescript": "^4.x || ^5.x",
     "tsd-lite": "^0.6.0"
   },
   "devDependencies": {
-    "@asd14/eslint-config": "^9.2.0",
-    "@commitlint/cli": "^17.4.2",
-    "@commitlint/config-conventional": "^17.4.2",
+    "@asd14/eslint-config": "^10.0.0",
+    "@commitlint/cli": "^17.5.1",
+    "@commitlint/config-conventional": "^17.4.4",
     "@semantic-release/git": "^10.0.1",
-    "@types/node": "^18.13.0",
-    "@types/tape": "^4.13.2",
-    "c8": "^7.12.0",
+    "@types/node": "^18.15.11",
+    "@types/tape": "^4.13.4",
+    "c8": "^7.13.0",
     "coveralls": "^3.1.1",
-    "eslint": "^8.34.0",
-    "lint-staged": "^13.1.1",
+    "eslint": "^8.37.0",
+    "lint-staged": "^13.2.0",
     "markdownlint-cli": "^0.33.0",
-    "npm-check-updates": "^16.7.4",
-    "prettier": "^2.8.4",
-    "semantic-release": "^20.1.0",
+    "npm-check-updates": "^16.10.0",
+    "prettier": "^2.8.7",
+    "semantic-release": "^21.0.1",
     "tap-diff": "^0.1.1",
     "tape": "^5.6.3",
-    "typescript": "^4.9.5"
+    "typescript": "^5.0.3"
   },
   "engines": {
-    "node": ">=16"
+    "node": ">=18"
   }
 }
