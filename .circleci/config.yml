@@ -78,6 +78,7 @@ jobs:
   test:
     executor: node-lts
     steps:
+      - checkout
       - restore-cache-node_modules
       - run:
           name: "[tape, c8] Unit tests with coverage"
@@ -86,6 +87,7 @@ jobs:
   typecheck:
     executor: node-lts
     steps:
+      - checkout
       - restore-cache-node_modules
       - run:
           name: "[tsc] Typecheck"
@@ -94,6 +96,7 @@ jobs:
   lint:
     executor: node-lts
     steps:
+      - checkout
       - restore-cache-node_modules
       - run:
           name: "[eslint, markdownlint] Lint"
@@ -106,6 +109,7 @@ jobs:
   release-npm:
     executor: node-lts
     steps:
+      - checkout
       - restore-cache-node_modules
       - run:
           name:
@@ -118,6 +122,7 @@ jobs:
   submit-coverage:
     executor: node-lts
     steps:
+      - checkout
       - restore-cache-node_modules
       - run:
           name: "[c8, coveralls] Publish test coverage to COVERALLS"
