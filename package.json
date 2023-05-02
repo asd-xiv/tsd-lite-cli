@@ -62,7 +62,7 @@
     ".circleci/config.yml": "circleci config validate"
   },
   "dependencies": {
-    "commander": "^10.0.0",
+    "commander": "^10.0.1",
     "fast-glob": "^3.2.12"
   },
   "peerDependencies": {
@@ -70,23 +70,23 @@
     "tsd-lite": "^0.6.0"
   },
   "devDependencies": {
-    "@asd14/eslint-config": "^10.0.0",
-    "@commitlint/cli": "^17.5.1",
-    "@commitlint/config-conventional": "^17.4.4",
+    "@asd14/eslint-config": "^10.2.0",
+    "@commitlint/cli": "^17.6.1",
+    "@commitlint/config-conventional": "^17.6.1",
     "@semantic-release/git": "^10.0.1",
-    "@types/node": "^18.15.11",
+    "@types/node": "^18.16.3",
     "@types/tape": "^4.13.4",
     "c8": "^7.13.0",
     "coveralls": "^3.1.1",
-    "eslint": "^8.37.0",
-    "lint-staged": "^13.2.0",
-    "markdownlint-cli": "^0.33.0",
-    "npm-check-updates": "^16.10.0",
-    "prettier": "^2.8.7",
-    "semantic-release": "^21.0.1",
+    "eslint": "^8.39.0",
+    "lint-staged": "^13.2.2",
+    "markdownlint-cli": "^0.34.0",
+    "npm-check-updates": "^16.10.9",
+    "prettier": "^2.8.8",
+    "semantic-release": "^21.0.2",
     "tap-diff": "^0.1.1",
     "tape": "^5.6.3",
-    "typescript": "^5.0.3"
+    "typescript": "^5.0.4"
   },
   "engines": {
     "node": ">=18"
