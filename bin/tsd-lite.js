@@ -1,12 +1,12 @@
 #!/usr/bin/env node
 
-import fastGlob from "fast-glob"
 import { program } from "commander"
+import fastGlob from "fast-glob"
 
+import { runSuite } from "../lib/run-many.js"
 import tapReporter from "../lib/tap-reporter.js"
 import { getNodeVersion, getPackageInfo } from "../lib/utils/node.js"
 import { green, red } from "../lib/utils/terminal-text.js"
-import { runSuite } from "../lib/run-many.js"
 
 /**
  * Node.js version guard
