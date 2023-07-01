@@ -15,6 +15,11 @@
     "name": "Andrei Dumitrescu",
     "url": "https://github.com/andreidmt"
   },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/",
+    "access": "public",
+    "tag": "latest"
+  },
   "keywords": [
     "cli",
     "typescript",
@@ -62,31 +67,31 @@
     ".circleci/config.yml": "circleci config validate"
   },
   "dependencies": {
-    "commander": "^10.0.1",
-    "fast-glob": "^3.2.12"
+    "commander": "^11.0.0",
+    "fast-glob": "^3.3.0"
   },
   "peerDependencies": {
     "@tsd/typescript": "^4.x || ^5.x",
     "tsd-lite": "^0.6.0"
   },
   "devDependencies": {
-    "@asd14/eslint-config": "^10.2.0",
-    "@commitlint/cli": "^17.6.1",
-    "@commitlint/config-conventional": "^17.6.1",
+    "@asd14/eslint-config": "^10.3.0",
+    "@commitlint/cli": "^17.6.6",
+    "@commitlint/config-conventional": "^17.6.6",
     "@semantic-release/git": "^10.0.1",
-    "@types/node": "^18.16.3",
-    "@types/tape": "^4.13.4",
-    "c8": "^7.13.0",
+    "@types/node": "^20.3.3",
+    "@types/tape": "^5.6.0",
+    "c8": "^8.0.0",
     "coveralls": "^3.1.1",
-    "eslint": "^8.39.0",
-    "lint-staged": "^13.2.2",
-    "markdownlint-cli": "^0.34.0",
-    "npm-check-updates": "^16.10.9",
+    "eslint": "^8.44.0",
+    "lint-staged": "^13.2.3",
+    "markdownlint-cli": "^0.35.0",
+    "npm-check-updates": "^16.10.13",
     "prettier": "^2.8.8",
-    "semantic-release": "^21.0.2",
+    "semantic-release": "^21.0.6",
     "tap-diff": "^0.1.1",
     "tape": "^5.6.3",
-    "typescript": "^5.0.4"
+    "typescript": "^5.1.6"
   },
   "engines": {
     "node": ">=18"
