@@ -97,6 +97,7 @@ Options:
   -c, --color    Output colored TAP for better human consumption. Disabled in
                  CI environments if not explicitly set (default: true)
   --no-color     Disable colored TAP, usefull when piping to other tools
+  --tests-only   Check types only for test files
   -h, --help     Print this help guide
 ```
 
