@@ -33,6 +33,20 @@ const { description, version } = await getPackageInfo()
 const processStartAt = process.hrtime()
 const isCI = process.env["CI"] === "true"
 
+/**
+ * Filter errors by files
+ *
+ * @param {import("../lib/run-one.js").TestResult} result
+ * @param {string[]}                               files
+ * @example
+ * filterErrors(tsdResult, ["/file/name/to/filter-errors.ts"])
+ */
+function filterErrors(result, files) {
+  result.errors = result.errors.filter(
+    error => !error.file || files.includes(error.file)
+  )
+}
+
 program
   .name("tsd-lite")
   .description(description)
@@ -48,8 +62,9 @@ program
     "--no-color",
     "Disable colored TAP, usefull when piping to other tools"
   )
+  .option("--tests-only", "Check types only for test files")
   .argument("<patterns...>", "Glob patterns for matching test files")
-  .action(async (patterns, { color: hasColor }) => {
+  .action(async (patterns, { color: hasColor, testsOnly }) => {
     const files = fastGlob.sync(patterns, { absolute: true })
 
     process.stdout.write(
@@ -62,6 +77,10 @@ program
 
     runSuite(files, {
       onTestFinish: (result, index) => {
+        if (testsOnly) {
+          filterErrors(result, files)
+        }
+
         process.stdout.write(
           `${tapReporter.formatTest({
             index,
