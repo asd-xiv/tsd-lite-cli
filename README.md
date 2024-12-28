@@ -1,5 +1,39 @@
 <!-- markdownlint-disable first-line-h1 -->
 
+> [!CAUTION]
+>
+> `tsd-lite-cli` is deprecated due to `tsd-lite` being [deprecated](https://github.com/mrazauskas/tsd-lite/issues/364).  
+> Migrate to [TSTyche](https://github.com/tstyche/tstyche), it has all the bells and whistles.
+
+Here is a TL;DR of how to use it:
+
+```sh
+npm install --save-dev tstyche
+```
+
+```ts
+// src/pipe-p.tst.ts
+import { describe, expect, test } from "tstyche"
+import { pipeP } from "./pipe-p.js"
+
+const inc = (x: number) => x + 1
+const asyncToString = async (x: unknown) => String(x)
+
+describe("pipeP :: left-right composition with promise support", () => {
+  test("given [inc, asyncToString of 1] should [return '2']", async () => {
+    const result = await pipeP(inc, asyncToString)(1)
+
+    expect<typeof result>().type.toBe<string>()
+  })
+})
+```
+
+```sh
+npx tstyche 'src/**/*.tst.ts'
+```
+
+---
+
 [![CircleCI](https://dl.circleci.com/status-badge/img/gh/asd-xiv/tsd-lite-cli/tree/main.svg?style=svg)](https://dl.circleci.com/status-badge/redirect/gh/asd-xiv/tsd-lite-cli/tree/main)
 ![npm](https://img.shields.io/npm/v/tsd-lite-cli)
 [![Coverage Status](https://coveralls.io/repos/github/asd-xiv/tsd-lite-cli/badge.svg?branch=main)](https://coveralls.io/github/asd-xiv/tsd-lite-cli?branch=main)
@@ -24,13 +58,14 @@
 
 <!-- vim-markdown-toc GFM -->
 
-- [Install](#install)
-  - [`tsd-lite`](#tsd-lite)
-  - [`@tsd/typescript`](#tsdtypescript)
-- [Usage](#usage)
-  - [CLI interface](#cli-interface)
-- [Similar projects](#similar-projects)
-- [Changelog](#changelog)
+* [Install](#install)
+  * [`tsd-lite`](#tsd-lite)
+  * [`@tsd/typescript`](#tsdtypescript)
+* [Usage](#usage)
+  * [CLI interface](#cli-interface)
+    * [`--color` and `--no-color`](#--color-and---no-color)
+* [Similar projects](#similar-projects)
+* [Changelog](#changelog)
 
 <!-- vim-markdown-toc -->
 
